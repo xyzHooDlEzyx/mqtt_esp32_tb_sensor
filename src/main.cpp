@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "pins.h"
 
 // put function declarations here:
 void setup() {
