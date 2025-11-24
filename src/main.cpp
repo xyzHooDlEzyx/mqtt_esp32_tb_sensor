@@ -1,20 +1,30 @@
 #include <Arduino.h>
+#include <PubSubClient.h>
+#include <stdint.h>
+#include "Wificon.h"
+#include "relay.h"
+#include "sensor.h"
+#include "WiFi.h"
 #include "pins.h"
 
-// put function declarations here:
 void setup() {
   Serial.begin(115200);
-  Serial.println("I`malive");
-  pinMode(5, OUTPUT);
+  Serial.println("I'm alive");
+  pinMode(relay_pin, OUTPUT);
+  pinMode(trubidity_sensor_pin, INPUT);
 
 }
 
 void loop() {
-  digitalWrite(5, HIGH);
-  Serial.println("Pin is HIGH");
-  delay(10000);
-  digitalWrite(5, LOW);
-  Serial.println("Pin is LOW");
-  delay(10000);
+
+  uint16_t raw = analogRead(trubidity_sensor_pin);
+
+  uint16_t data = sensor_handler(raw);
+  relay_handler(data);
+  Serial.print("Raw: ");
+  Serial.println(raw);
+  Serial.print("percent: ");
+  Serial.println(data);
+
 
 }
