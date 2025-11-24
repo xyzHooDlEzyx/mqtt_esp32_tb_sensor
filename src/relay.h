@@ -8,7 +8,6 @@ void relay_handler(uint8_t data) {
   }
   else {
     digitalWrite(relay_pin, HIGH);
-    Serial.println("Pin is HIGH");
   }
   
 }
