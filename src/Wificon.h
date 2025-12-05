@@ -11,16 +11,34 @@ long lastMsg = 0;
 char msg[50];
 uint8_t value = 0;
 
-void setup_wifi(){
+
+void setup_wifi() {
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+
     WiFi.begin(ssid, password);
+
+    int attempts = 0;
     while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+        attempts++;
+
+        if (attempts > 20) {
+            Serial.println("\nFailed to connect to WiFi!");
+            Serial.print("WiFi status: ");
+            Serial.println(WiFi.status());
+            return;
+        }
     }
-    Serial.println("WiFi connected");
+
+    Serial.println("\nWiFi connected!");
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
 
     client.setServer(mqtt_server, 1883);
 }
+
 
 void reconnect() {
     while (!client.connected()) {
